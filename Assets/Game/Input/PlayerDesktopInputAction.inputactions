@@ -1,0 +1,34 @@
+{
+    "name": "PlayerDesktopInputAction",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "52bb4183-d3ea-453f-8f8d-7a3f7df75cf8",
+            "actions": [
+                {
+                    "name": "Shoot",
+                    "type": "Button",
+                    "id": "313409ba-c8d6-4ae5-9fd3-315d4837b3ff",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8608bcfe-7168-422c-adac-07fe9ca3952b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
