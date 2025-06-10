@@ -3,41 +3,39 @@ using UnityEngine;
 
 public class Shoot
 {
-    private readonly Transform _shootPoint;
-    private readonly GameObject _projectilePrefab;
-
-    private float _chargeTime;
+    private  Transform _shootPoint;
+    
+    [SerializeField] private GameObject _projectilePrefab;
+    
     private bool _isCharging;
+    private Projectile _projectile;
 
-    public event Action<float> OnShotFired;
 
-    public Shoot(Transform shootPoint, GameObject projectilePrefab)
+
+    
+
+    public void StartCharging(float startSize,IInfection infection,Transform shotPoint )
     {
-        _shootPoint = shootPoint;
-        _projectilePrefab = projectilePrefab;
-    }
-
-    public void StartCharging()
-    {
+        _shootPoint = shotPoint;
         _isCharging = true;
-        _chargeTime = 0f;
+        
+        GameObject projectile = GameObject.Instantiate(_projectilePrefab, _shootPoint.position, _shootPoint.rotation);
+        projectile.transform.localScale = Vector3.one * startSize;
+        _projectile = projectile.GetComponent<Projectile>();
+        _projectile.SetInfection(infection);
+
+
+
     }
 
-    public void UpdateCharging(float deltaTime)
+    public void UpdateCharging(float sazeIndex)
     {
-        if (_isCharging)
-            _chargeTime += deltaTime;
+        _projectile.Increase(sazeIndex);
     }
 
     public void ReleaseShot()
     {
-        if (!_isCharging) return;
-
-        _isCharging = false;
-
-        var projectile = UnityEngine.Object.Instantiate(_projectilePrefab, _shootPoint.position, Quaternion.identity);
-       // projectile.GetComponent<Projectile>().Init(_chargeTime);
-
-        OnShotFired?.Invoke(_chargeTime);
+   
+        _projectile.StartMove();
     }
 }

@@ -14,10 +14,10 @@ public class Projectile:MonoBehaviour
         _infection = infection;
         _contamination = new Contamination(infection,_infectionRadius, _infectableLayer);
     }
-    public void Increase(float coefficient)
+    public void Increase(float increment)
     {
-        transform.localScale *= coefficient;
-        _infectionRadius *= coefficient;
+        transform.localScale +=Vector3.one* increment;
+        _infectionRadius += increment;
     }
     public void StartMove()
     {

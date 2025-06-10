@@ -7,6 +7,7 @@ public class Contamination
     private IInfection _infection;
     public Contamination(IInfection infection,float radius, LayerMask infectableLayer)
     {
+        _infection = infection;
         _infectionRadius = radius;
         _infectableLayer = infectableLayer;
     }
@@ -15,9 +16,9 @@ public class Contamination
         Collider[] infectables = Physics.OverlapSphere(position, _infectionRadius, _infectableLayer);
         foreach (var item in infectables)
         {
-            if (item.TryGetComponent<IInfection>(out var infection))
+            if (item.TryGetComponent<Infectable>(out var infection))
             {
-                infection.ApplyInfect();
+                infection.ApplyInfection(_infection);
             }
         }
     }

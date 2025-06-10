@@ -12,11 +12,11 @@ public class InputInstaller : MonoInstaller
     {
         if (isTouchDevice)
         {
-            Container.Bind<IPlayerIInput>().To<PlayerMobileInput>().AsSingle();
+            Container.BindInterfacesTo<PlayerMobileInput>().AsSingle();
         }
         else
         {
-            Container.Bind<IPlayerIInput>().To<PlayerDesktopInput>().AsSingle();
+            Container.BindInterfacesTo<PlayerDesktopInput>().AsSingle();
         }
     }
 }
