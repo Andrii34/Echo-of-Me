@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ba25cbb8def5974cae5b605a6608deb, type: 3}
   m_Name: ContagiousInfection
   m_EditorClassIdentifier: 
-  _color: {r: 0.29194534, g: 1, b: 0, a: 0}
+  _color: {r: 0.29194534, g: 1, b: 0, a: 1}
   _timeToDeath: 1
-  _contagionRadius: 5
+  _contagionRadius: 10
+  _infectionLayer:
+    serializedVersion: 2
+    m_Bits: 64

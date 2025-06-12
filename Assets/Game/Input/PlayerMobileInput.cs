@@ -1,8 +1,9 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
-public class PlayerMobileInput : IPlayerIInput
+public class PlayerMobileInput : IPlayerIInput, ITickable, IInitializable, IDisposable
 {
     private readonly PlayerMobileControlsAction _playerMobileInput;
 
@@ -15,7 +16,7 @@ public class PlayerMobileInput : IPlayerIInput
     public PlayerMobileInput()
     {
         _playerMobileInput = new PlayerMobileControlsAction();
-    }
+    }  
 
     public void Initialize()
     {

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
-public class PlayerDesktopInput :  ITickable, IInitializable, IDisposable
+public class PlayerDesktopInput : IPlayerIInput,  ITickable, IInitializable, IDisposable
 {
     private readonly PlayerDesktopInputAction _desktopInput;
 

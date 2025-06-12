@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edc233d1610247b4ea1edd7146277a2d, type: 3}
+  m_Name: ContagiousInfection 1
+  m_EditorClassIdentifier: 
+  _infectionConfigs: {fileID: 11400000, guid: ca7404be039815f4c95f4155ae23b051, type: 2}
+  _infectionConfigs: {fileID: 11400000, guid: ca7404be039815f4c95f4155ae23b051, type: 2}
+  _deathInfection: {fileID: 11400000, guid: 151f34149bddd4b4e897d9c1d919f0bf, type: 2}
+  _sphereEffect: {fileID: 8757972131457532397, guid: 246e6b95a08bec645b895ea07f7d8252, type: 3}

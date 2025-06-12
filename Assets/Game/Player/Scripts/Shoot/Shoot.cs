@@ -14,18 +14,15 @@ public class Shoot
 
     
 
-    public void StartCharging(float startSize,IInfection infection,Transform shotPoint )
+    public void StartCharging(float startSize,DeathInfection infection,Transform shotPoint, GameObject projectilePrefab)
     {
         _shootPoint = shotPoint;
         _isCharging = true;
         
-        GameObject projectile = GameObject.Instantiate(_projectilePrefab, _shootPoint.position, _shootPoint.rotation);
+        GameObject projectile = GameObject.Instantiate(projectilePrefab, _shootPoint.position, _shootPoint.rotation);
         projectile.transform.localScale = Vector3.one * startSize;
         _projectile = projectile.GetComponent<Projectile>();
         _projectile.SetInfection(infection);
-
-
-
     }
 
     public void UpdateCharging(float sazeIndex)

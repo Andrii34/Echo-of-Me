@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263f2c11a7d4d1945b70c589d8a8034c, type: 3}
   m_Name: InfectionConfigs
   m_EditorClassIdentifier: 
-  _color: {r: 1, g: 0, b: 0, a: 0}
+  _color: {r: 1, g: 0, b: 0, a: 1}
   _timeToDeath: 1
