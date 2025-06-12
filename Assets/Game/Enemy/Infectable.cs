@@ -10,6 +10,7 @@ public  class Infectable : MonoBehaviour
     [SerializeField]private Renderer _renderer;
     private IInfection _infection;
     private bool _isInfected;
+    
     public Renderer Renderer
     {
         get => _renderer;
@@ -23,6 +24,11 @@ public  class Infectable : MonoBehaviour
 
     public void ApplyInfection(IInfection infection)
     {
+        if (_isInfected)
+        {
+            
+            return;
+        }
         Debug.Log("Infection applied to " + gameObject.name);
         OnInfectable?.Invoke(this);
         _infection = infection;
@@ -47,7 +53,7 @@ public  class Infectable : MonoBehaviour
     {
         OnInfectableDeath?.Invoke(this);
         Debug.Log("Infectable object " + gameObject.name + " has died.");
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
 }

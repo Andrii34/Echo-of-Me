@@ -22,6 +22,7 @@ public class Shoot
         GameObject projectile = GameObject.Instantiate(projectilePrefab, _shootPoint.position, _shootPoint.rotation);
         projectile.transform.localScale = Vector3.one * startSize;
         _projectile = projectile.GetComponent<Projectile>();
+        Debug.Log(_projectile+"!!!!!!!!!!!!AAAAAAAAAAAAAAAAAAAaaaaaaa");
         _projectile.SetInfection(infection);
     }
 

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Zenject;
 
@@ -54,12 +55,18 @@ public class PlayerMobileInput : IPlayerIInput, ITickable, IInitializable, IDisp
 
     private void OnShootStarted(InputAction.CallbackContext context)
     {
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            return;
+
         _isCharging = true;
         OnStartCharging?.Invoke();
     }
 
     private void OnShootCanceled(InputAction.CallbackContext context)
     {
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            return;
+
         _isCharging = false;
         OnShot?.Invoke();
     }

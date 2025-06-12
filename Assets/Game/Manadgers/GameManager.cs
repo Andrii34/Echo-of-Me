@@ -16,16 +16,10 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("GameManager Awake");
         _player.OnMinimalSize += _gameOver.LevelFail;
 
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+      
 
         Infectable.OnInfectable += OnInfectableApplied;
         Infectable.OnInfectableDeath += OnInfectableDeath;
@@ -33,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        Debug.Log("GameManager OnDestroy");
         Infectable.OnInfectable -= OnInfectableApplied;
         Infectable.OnInfectableDeath -= OnInfectableDeath;
     }
@@ -44,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     private void OnInfectableApplied(Infectable infectable)
     {
+        _moverToGate.StopMove();
         infectedCount++;
         Debug.Log("Infectable applied: " + infectedCount);
 
@@ -77,6 +73,7 @@ public class GameManager : MonoBehaviour
     {
        
         _playerInput.Disable();
+        Debug.Log(_moverToGate+"!!!!!!!!!!!!!!");
         _moverToGate.StartMove();
     }
     private void OnDisable()

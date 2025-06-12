@@ -5,7 +5,7 @@ using Zenject;
 public class Player : MonoBehaviour
 {
     public event Action OnMinimalSize;
-    [SerializeField] private float _minimalSize =5f;
+    [SerializeField] private float _minimalSize =1f;
     [SerializeField] private float _startSizeProjectile;
     [SerializeField] private Transform _projectilePoint;
     [SerializeField] private float _energyDeliveryRate;
@@ -14,8 +14,9 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform Gate;
     [SerializeField] private ContagiousInfection _contagiousInfection;
     [SerializeField] private DeathInfection _deathInfection;
-    
-    
+    [SerializeField] private MoverToGate _moverToGate;
+
+
     private IPlayerIInput _playerIInput;
     private Shoot _shoot;
     private DeathInfection _infection;
@@ -28,14 +29,16 @@ public class Player : MonoBehaviour
     }
     private void Start()
     {
+        //_moverToGate.OnMove += InputSwitcher;
         _playerIInput.OnStartCharging += StartCharging;
         _playerIInput.OnCharging += Charging;
         _playerIInput.OnShot += Shoot;
-        _infection =Instantiate(_contagiousInfection);
+        _infection =Instantiate(_deathInfection);
     }
    
     private void Update()
     {
+        
         transform.LookAt(Gate);
         _projectilePoint.LookAt(Gate);
     }
@@ -54,10 +57,23 @@ public class Player : MonoBehaviour
         _shoot.ReleaseShot();
         
     }
-
+    private void InputSwitcher(bool noInput)
+    {
+        Debug.Log("InputSwitcher called with noInput: " + noInput);
+        if (noInput)
+        {
+            _playerIInput.OnCharging -= Charging;
+            _playerIInput.OnShot -= Shoot;
+        }
+        else
+        {
+            _playerIInput.OnCharging += Charging;
+            _playerIInput.OnShot += Shoot;
+        }
+    }
     private void Charging()
     {
-        if(transform.localScale.x <= _minimalSize)
+        if(transform.localScale.x-_startProjectileSize <= _minimalSize)
         {
             OnMinimalSize?.Invoke();
             return;
@@ -70,22 +86,36 @@ public class Player : MonoBehaviour
     }
 
     private void StartCharging()
+
     {
         Debug.Log("StartCharging");
         SetProjectilePoint();
         _shoot.StartCharging(_startSizeProjectile, _infection, _projectilePoint, _projectile);
         _shoot.UpdateCharging(_startProjectileSize);
         transform.localScale -= Vector3.one * _startProjectileSize;
+        if (transform.localScale.x <= _minimalSize)
+        {
+            OnMinimalSize?.Invoke();
+            return;
+        }
     }
-
+    private void OnDisable()
+    {
+        _moverToGate.OnMove -= InputSwitcher;
+        _playerIInput.OnStartCharging -= StartCharging;
+        _playerIInput.OnCharging -= Charging;
+        _playerIInput.OnShot -= Shoot;
+    }
 
     public void SetDeathInfection()
     {
-        _infection = Instantiate(_deathInfection);
+        Debug.Log("SetDeathInfection");
+        _infection = _deathInfection;
     }
     public void SetContaminationInfection()
     {
-        _infection = Instantiate(_contagiousInfection);
+        Debug.Log("SetContaminationInfection");
+        _infection = _contagiousInfection;
     }
 }
 

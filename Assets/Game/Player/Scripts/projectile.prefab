@@ -313,7 +313,7 @@ MonoBehaviour:
   _infectableLayer:
     serializedVersion: 2
     m_Bits: 64
-  _infectionBaseRadius: 15
+  _infectionBaseRadius: 1
 --- !u!54 &1294949867620422115
 Rigidbody:
   m_ObjectHideFlags: 0
