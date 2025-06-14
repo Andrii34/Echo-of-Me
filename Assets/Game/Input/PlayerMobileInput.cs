@@ -1,23 +1,32 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
+
 using Zenject;
 
-public class PlayerMobileInput : IPlayerIInput, ITickable, IInitializable, IDisposable
+
+
+using System;
+using UnityEngine;
+using Zenject;
+
+public class PlayerMobileInput : IPlayerIInput, ILateTickable, IInitializable, IDisposable
 {
-    private readonly PlayerMobileControlsAction _playerMobileInput;
+    private readonly ITouchInputService _touchInputService;
 
     private bool _isCharging = false;
+    private bool _enabled = false;
 
     public event Action OnStartCharging;
     public event Action OnCharging;
     public event Action OnShot;
 
-    public PlayerMobileInput()
+    [Inject]
+    public PlayerMobileInput(ITouchInputService touchInputService)
     {
-        _playerMobileInput = new PlayerMobileControlsAction();
-    }  
+        _touchInputService = touchInputService;
+    }
 
     public void Initialize()
     {
@@ -26,18 +35,13 @@ public class PlayerMobileInput : IPlayerIInput, ITickable, IInitializable, IDisp
 
     public void Enable()
     {
-        _playerMobileInput.Enable();
-
-        _playerMobileInput.Player.Shot.started += OnShootStarted;
-        _playerMobileInput.Player.Shot.canceled += OnShootCanceled;
+        _enabled = true;
     }
 
     public void Disable()
     {
-        _playerMobileInput.Player.Shot.started -= OnShootStarted;
-        _playerMobileInput.Player.Shot.canceled -= OnShootCanceled;
-
-        _playerMobileInput.Disable();
+        _enabled = false;
+        _isCharging = false;
     }
 
     public void Dispose()
@@ -45,30 +49,41 @@ public class PlayerMobileInput : IPlayerIInput, ITickable, IInitializable, IDisp
         Disable();
     }
 
-    public void Tick()
+    public void LateTick()
     {
-        if (_isCharging)
+        if (!_enabled)
+            return;
+
+        HandleInput();
+    }
+
+    private void HandleInput()
+    {
+        if (!_touchInputService.TryGetTouch(out var touch))
+            return;
+
+        switch (touch.phase)
         {
-            OnCharging?.Invoke();
+            case TouchPhase.Began:
+                _isCharging = true;
+                OnStartCharging?.Invoke();
+                break;
+
+            case TouchPhase.Stationary:
+            case TouchPhase.Moved:
+                if (_isCharging)
+                {
+                    OnCharging?.Invoke();
+                }
+                break;
+
+            case TouchPhase.Ended:
+            case TouchPhase.Canceled:
+                _isCharging = false;
+                OnShot?.Invoke();
+                break;
         }
     }
-
-    private void OnShootStarted(InputAction.CallbackContext context)
-    {
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-            return;
-
-        _isCharging = true;
-        OnStartCharging?.Invoke();
-    }
-
-    private void OnShootCanceled(InputAction.CallbackContext context)
-    {
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-            return;
-
-        _isCharging = false;
-        OnShot?.Invoke();
-    }
-
 }
+
+

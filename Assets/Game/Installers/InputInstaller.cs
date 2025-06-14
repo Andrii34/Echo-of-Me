@@ -12,7 +12,10 @@ public class InputInstaller : MonoInstaller
     {
         if (isTouchDevice)
         {
-            Container.BindInterfacesTo<PlayerMobileInput>().AsSingle();
+            
+        Container.Bind<ITouchInputService>().To<TouchInputService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<PlayerMobileInput>().AsSingle();
+
         }
         else
         {
